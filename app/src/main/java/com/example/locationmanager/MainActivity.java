@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     LocationManager locationManager;
     MapView map;
+    Marker marcadorPosicaoAtual;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Configuration.getInstance().setUserAgentValue(getPackageName());
         checkLocationPermission();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(
@@ -68,6 +70,32 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
     }
+
+
+    public void mapinit (){
+        map.setMultiTouchControls(true);
+        map.getController().setZoom(16.0);
+    }
+
+    public void showLocationOnMap (Location location){
+        double latitude=location.getLatitude();
+        double longitude=location.getLongitude();
+        GeoPoint mLocation = new GeoPoint (latitude, longitude);
+        map.getController().setCenter(mLocation);
+
+
+        if (marcadorPosicaoAtual == null){
+            marcadorPosicaoAtual = new Marker (map);
+        }
+
+
+        marcadorPosicaoAtual.setPosition(mLocation);
+        marcadorPosicaoAtual.setTitle("Minha Localização");
+
+        map.getOverlays().add(marcadorPosicaoAtual);
+    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
