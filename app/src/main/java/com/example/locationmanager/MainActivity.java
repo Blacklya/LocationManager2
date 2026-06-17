@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tv = findViewById(R.id.textview);
         map = findViewById(R.id.map);
+        mapinit();
         Configuration.getInstance().setUserAgentValue(getPackageName());
         checkLocationPermission();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         map.getController().animateTo(userLocation);
                         Marker marker = new Marker(map);
                         marker.setPosition(userLocation);
+                        showLocationOnMap(location);
                     }
             );
 
